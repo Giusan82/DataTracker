@@ -6,11 +6,13 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.example.android.datatracker.R;
 
 
-public class PreferenceTheme extends Preference{
+public class PreferenceTheme extends Preference {
     private String mSelectedTheme;
+
     public PreferenceTheme(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -28,15 +30,15 @@ public class PreferenceTheme extends Preference{
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         super.onSetInitialValue(restorePersistedValue, defaultValue);
-        if(restorePersistedValue){
+        if (restorePersistedValue) {
             mSelectedTheme = getPersistedString(null);
-        }else{
+        } else {
             mSelectedTheme = (String) defaultValue;
         }
-        if(mSelectedTheme.equals(getContext().getString(R.string.settings_coral_theme_value))){
+        if (mSelectedTheme.equals(getContext().getString(R.string.settings_coral_theme_value))) {
             setSummary(getContext().getString(R.string.settings_coral_theme_label));
         }
-        if(mSelectedTheme.equals(getContext().getString(R.string.settings_green_theme_value))){
+        if (mSelectedTheme.equals(getContext().getString(R.string.settings_green_theme_value))) {
             setSummary(getContext().getString(R.string.settings_green_theme_label));
         }
     }

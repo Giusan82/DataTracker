@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">DataTracker</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
     <string name="content_authority">com.example.android.datatracker</string>
 
@@ -61,7 +58,6 @@
     <!-- [CHAR LIMIT=NONE] -->
     <string name="refresh_button">Refresh</string>
 
-
     <!-- Title for the activity to add a new item [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_task">New Task</string>
     <string name="editor_activity_title_new_data">New Data</string>
@@ -76,7 +72,6 @@
 
     <string name="tab_data">Data</string>
     <string name="tab_chart">Chart</string>
-
 
     <!--Dialog messages-->
     <!-- Toast message in editor when new item has been successfully inserted or updated [CHAR LIMIT=NONE] -->
@@ -101,11 +96,4 @@
     <string name="empty_view_title_text">The database is empty</string>
     <!-- Subtitle text for the empty view that prompts the user to add a entry [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a new one.</string>
-
-
-
-
-
-
-
 </resources>

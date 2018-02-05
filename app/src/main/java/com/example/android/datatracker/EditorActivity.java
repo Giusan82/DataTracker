@@ -1,6 +1,5 @@
 package com.example.android.datatracker;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.LoaderManager;
@@ -13,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
@@ -25,7 +23,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +48,7 @@ import java.util.Locale;
 
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
-        CompoundButton.OnCheckedChangeListener{
+        CompoundButton.OnCheckedChangeListener {
     private static final int TASKS_LOADER = 0;
     private static final String TIME_PICKER_TAG = "TimePicker";
     private EditText mName;
@@ -88,11 +85,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        mName = (EditText)findViewById(R.id.et_job_name);
+        mName = (EditText) findViewById(R.id.et_job_name);
         mDescription = (EditText) findViewById(R.id.et_job_description);
-        mDurationET = (EditText)findViewById(R.id.et_duration);
+        mDurationET = (EditText) findViewById(R.id.et_duration);
         mDurationSpinner = (Spinner) findViewById(R.id.s_duration);
-        mFrequencyET = (EditText)findViewById(R.id.et_frequency);
+        mFrequencyET = (EditText) findViewById(R.id.et_frequency);
         mFrequencySpinner = (Spinner) findViewById(R.id.s_frequency);
         sBuTime = (Button) findViewById(R.id.bt_startTime);
         mAlarm = (SwitchCompat) findViewById(R.id.sw_alarm);
@@ -116,16 +113,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             invalidateOptionsMenu();
         }
     }
+
     @Override
     public void onCheckedChanged(CompoundButton switchButton, boolean isChecked) {
-        Log.e("Editor->Checke", "" + isChecked);
-        if (isChecked){
+        if (isChecked) {
             mAlarmActive = 1;
-        }
-        else{
+        } else {
             mAlarmActive = 0;
         }
-
     }
 
     private void durationSpinner() {
@@ -150,18 +145,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         mDurationUnit = TasksEntry.SECOND;
                     } else if (selection.equals(getString(R.string.time_minutes))) {
                         mDurationUnit = TasksEntry.MINUTE;
-                    }
-                    else if (selection.equals(getString(R.string.time_hours))) {
+                    } else if (selection.equals(getString(R.string.time_hours))) {
                         mDurationUnit = TasksEntry.HOUR;
-                    }
-                    else if (selection.equals(getString(R.string.time_days))) {
+                    } else if (selection.equals(getString(R.string.time_days))) {
                         mDurationUnit = TasksEntry.DAY;
-                    }
-                    else {
+                    } else {
                         mDurationUnit = TasksEntry.WEEK;
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 mDurationUnit = TasksEntry.SECOND;
@@ -191,18 +184,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         mIntervalUnit = TasksEntry.SECOND;
                     } else if (selection.equals(getString(R.string.time_minutes))) {
                         mIntervalUnit = TasksEntry.MINUTE;
-                    }
-                    else if (selection.equals(getString(R.string.time_hours))) {
+                    } else if (selection.equals(getString(R.string.time_hours))) {
                         mIntervalUnit = TasksEntry.HOUR;
-                    }
-                    else if (selection.equals(getString(R.string.time_days))) {
+                    } else if (selection.equals(getString(R.string.time_days))) {
                         mIntervalUnit = TasksEntry.DAY;
-                    }
-                    else {
+                    } else {
                         mIntervalUnit = TasksEntry.WEEK;
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 mIntervalUnit = TasksEntry.SECOND;
@@ -210,44 +201,39 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    public void startingTime(View view){
+    public void startingTime(View view) {
         DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(),TIME_PICKER_TAG);
+        newFragment.show(getFragmentManager(), TIME_PICKER_TAG);
     }
 
-    public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
+    public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             //Use the current time as the default values for the time picker
             sTime = Calendar.getInstance();
             int hour = sTime.get(Calendar.HOUR_OF_DAY);
             int minute = sTime.get(Calendar.MINUTE);
 
             //Create and return a new instance of TimePickerDialog
-            TimePickerDialog timePicker = new TimePickerDialog(getActivity(),this, hour, minute,
+            TimePickerDialog timePicker = new TimePickerDialog(getActivity(), this, hour, minute,
                     true);
             return timePicker;
         }
 
         //onTimeSet() callback method
-        public void onTimeSet(TimePicker view, int hours, int min){
-//            sStartTime = hours * TasksEntry.HOUR + min * TasksEntry.MINUTE;
-//            //sStartTime = sTime.getTimeInMillis();
-//            Date date = new Date(sStartTime);
-//            String time = formatTime(date);
+        public void onTimeSet(TimePicker view, int hours, int min) {
             sTime.set(Calendar.HOUR_OF_DAY, hours);
             sTime.set(Calendar.MINUTE, min);
-            sTime.set(Calendar.SECOND,0);
+            sTime.set(Calendar.SECOND, 0);
             sStartTime = sTime.getTimeInMillis();
             Date date = new Date(sStartTime);
             String time = formatTime(date);
             sBuTime.setText(getString(R.string.starting_time_active, time));
-            Log.e("Editor->startTime", hours +":" + min);
-            //Toast.makeText(getActivity(), hours +":" + min , Toast.LENGTH_SHORT).show();
         }
     }
+
     private static String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ROOT);
         return timeFormat.format(dateObject);
@@ -281,7 +267,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-// Bail early if the cursor is null or there is less than 1 row in the cursor
+        // if the cursor is null or there is less than 1 row in the cursor
         if (data == null || data.getCount() < 1) {
             return;
         }
@@ -303,28 +289,26 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             String time = formatTime(date);
             sBuTime.setText(getString(R.string.starting_time_active, time));
             mAlarmActive = data.getInt(data.getColumnIndex(TasksEntry.COLUMN_ALARM));
-            if(mAlarmActive == 1){
+            if (mAlarmActive == 1) {
                 mAlarm.setChecked(true);
-            }else {
+            } else {
                 mAlarm.setChecked(false);
             }
             mAlarmId = data.getInt(data.getColumnIndex(TasksEntry.COLUMN_ALARM_ID));
         }
     }
-    private int retrieveUnit(long value){
+
+    private int retrieveUnit(long value) {
         int unit;
-        if (value == TasksEntry.MINUTE){
+        if (value == TasksEntry.MINUTE) {
             unit = 1;
-        }else if (value == TasksEntry.HOUR){
+        } else if (value == TasksEntry.HOUR) {
             unit = 2;
-        }
-        else if (value == TasksEntry.DAY){
+        } else if (value == TasksEntry.DAY) {
             unit = 3;
-        }
-        else if (value == TasksEntry.WEEK){
+        } else if (value == TasksEntry.WEEK) {
             unit = 4;
-        }
-        else{
+        } else {
             unit = 0;
         }
         return unit;
@@ -339,28 +323,27 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mFrequencySpinner.setSelection(0);
     }
 
-    private void save(){
-
+    private void save() {
         String name = mName.getText().toString().trim();
-        if (name.isEmpty()){
+        if (name.isEmpty()) {
             Toast.makeText(this, getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
             return;
         }
         String description = mDescription.getText().toString().trim();
         long creation_time = System.currentTimeMillis();
-        if (mDurationET.length() == 0){
+        if (mDurationET.length() == 0) {
             Toast.makeText(this, getString(R.string.empty_duration_field), Toast.LENGTH_SHORT).show();
             return;
         }
         mDuration = Long.valueOf(mDurationET.getText().toString().trim());
 
-        if (mFrequencyET.length() == 0){
+        if (mFrequencyET.length() == 0) {
             Toast.makeText(this, getString(R.string.empty_frequency_field), Toast.LENGTH_SHORT).show();
             return;
         }
         mFrequency = Long.valueOf(mFrequencyET.getText().toString().trim());
 
-        if(mCurrentUri == null){
+        if (mCurrentUri == null) {
             mAlarmId = (int) creation_time / 1000;
         }
         ContentValues values = new ContentValues();
@@ -374,8 +357,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(TasksEntry.COLUMN_ALARM, mAlarmActive);
         values.put(TasksEntry.COLUMN_ALARM_ID, mAlarmId);
         values.put(TasksEntry.COLUMN_DESCRIPTION, description);
-        try{
-            if (mCurrentUri == null){
+        try {
+            if (mCurrentUri == null) {
                 Uri newUri = getContentResolver().insert(TasksEntry.CONTENT_URI, values);
                 // Show a toast message depending on whether or not the insertion was successful
                 if (newUri == null) {
@@ -386,8 +369,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     Toast.makeText(this, getString(R.string.saving_successful_with_name, name),
                             Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
+            } else {
                 // Otherwise this is an EXISTING item, this update the item with content URI
                 int rowsAffected = getContentResolver().update(mCurrentUri, values, null, null);
                 // Show a toast message depending on whether or not the update was successful.
@@ -401,29 +383,28 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                             Toast.LENGTH_SHORT).show();
                 }
             }
-            if(mAlarmActive == 1){
+            if (mAlarmActive == 1) {
                 alarmSetup(sStartTime, mFrequency, mAlarmId, true);
-            }else {
+            } else {
                 alarmSetup(sStartTime, mFrequency, mAlarmId, false);
             }
-
             //Exit activity
             finish();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private void alarmSetup(long time, long interval, int id, boolean isActive){
+    private void alarmSetup(long time, long interval, int id, boolean isActive) {
         interval = interval * mIntervalUnit;
         PendingIntent pendingIntent;
         Intent alarmIntent = new Intent(this, TaskService.class);
         alarmIntent.setAction(Tasks.SHOW_ALARM);
         pendingIntent = PendingIntent.getService(this, id, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if(isActive){
+        if (isActive) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, time, interval, pendingIntent);
-        }else{
+        } else {
             manager.cancel(pendingIntent);
             pendingIntent.cancel();
             stopService(alarmIntent);
@@ -436,6 +417,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSaveButton.setVisible(false);
         return true;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -449,7 +431,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         switch (id) {
             case R.id.action_save:
@@ -458,7 +439,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                 //If the item hasn't changed, continue with navigating up to parent activity
+                //If the item hasn't changed, continue with navigating up to parent activity
                 if (!mHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
@@ -507,7 +488,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     dialog.dismiss();
                 }
             }
-            });
+        });
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();

@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.example.android.datatracker.data.TasksContract.TasksEntry;
 import com.example.android.datatracker.data.DataContract.DataEntry;
-import com.example.android.datatracker.data.LabelsContract.LabelsEntry;
 
 
 public class DataProvider extends ContentProvider {
@@ -26,11 +25,6 @@ public class DataProvider extends ContentProvider {
     public static final int DATA = 200;
     //URI matcher code for a single task
     public static final int DATA_ID = 201;
-
-    //URI matcher code for the content URI for the tasks table
-    public static final int LABELS = 300;
-    //URI matcher code for a single task
-    public static final int LABELS_ID = 301;
     //UriMatcher object to match a content URI to a corresponding code.
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -40,8 +34,6 @@ public class DataProvider extends ContentProvider {
         sUriMatcher.addURI(TasksContract.CONTENT_AUTHORITY, TasksContract.PATH_TASKS + "/#", TASK_ID);
         sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_DATA, DATA);
         sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_DATA + "/#", DATA_ID);
-        sUriMatcher.addURI(LabelsContract.CONTENT_AUTHORITY, LabelsContract.PATH_LABELS, LABELS);
-        sUriMatcher.addURI(LabelsContract.CONTENT_AUTHORITY, LabelsContract.PATH_LABELS + "/#", LABELS_ID);
     }
 
     //initialize a DataDbHelper object
@@ -92,20 +84,6 @@ public class DataProvider extends ContentProvider {
                 mCursor = db.query(DataEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
-            case LABELS:
-                // This queries the values table directly with the given
-                // projection, selection, selection arguments, and sort order.
-                mCursor = db.query(LabelsEntry.TABLE_NAME, projection, selection, selectionArgs,
-                        null, null, sortOrder);
-                break;
-            case LABELS_ID:
-                // This extracts out the ID from the URI and queries the table at specific id
-                selection = LabelsEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                // This will perform a query at specific id
-                mCursor = db.query(LabelsEntry.TABLE_NAME, projection, selection, selectionArgs,
-                        null, null, sortOrder);
-                break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -125,8 +103,6 @@ public class DataProvider extends ContentProvider {
                 return insertValue(uri, contentValues, TasksEntry.COLUMN_NAME, TasksEntry.TABLE_NAME);
             case DATA:
                 return insertValue(uri, contentValues, DataEntry.COLUMN_NAME, DataEntry.TABLE_NAME);
-            case LABELS:
-                return insertValue(uri, contentValues, LabelsEntry.COLUMN_NAME, LabelsEntry.TABLE_NAME);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -182,13 +158,6 @@ public class DataProvider extends ContentProvider {
                 selection = DataEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateItem(uri, contentValues, selection, selectionArgs, DataEntry.TABLE_NAME, DataEntry.COLUMN_NAME);
-            case LABELS:
-                return updateItem(uri, contentValues, selection, selectionArgs, LabelsEntry.TABLE_NAME, LabelsEntry.COLUMN_NAME);
-            case LABELS_ID:
-                // updates the table at specific id
-                selection = LabelsEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updateItem(uri, contentValues, selection, selectionArgs, LabelsEntry.TABLE_NAME, LabelsEntry.COLUMN_NAME);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -255,16 +224,6 @@ public class DataProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = db.delete(DataEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case LABELS:
-                // Delete all rows that match the selection and selection args
-                rowsDeleted = db.delete(LabelsEntry.TABLE_NAME, selection, selectionArgs);
-                break;
-            case LABELS_ID:
-                // Delete a single row given by the ID in the URI
-                selection = LabelsEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                rowsDeleted = db.delete(LabelsEntry.TABLE_NAME, selection, selectionArgs);
-                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
@@ -292,10 +251,6 @@ public class DataProvider extends ContentProvider {
                 return DataEntry.CONTENT_LIST_TYPE;
             case DATA_ID:
                 return DataEntry.CONTENT_DATA_TYPE;
-            case LABELS:
-                return LabelsEntry.CONTENT_LIST_TYPE;
-            case LABELS_ID:
-                return LabelsEntry.CONTENT_DATA_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }

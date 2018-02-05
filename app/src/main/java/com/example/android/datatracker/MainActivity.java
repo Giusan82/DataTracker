@@ -32,7 +32,7 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>,
-        TaskAdapter.EntryOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener{
+        TaskAdapter.EntryOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final int TASK_LOADER_ID = 0;
 
     private SQLiteDatabase mDb;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     public ItemTouchHelperExtension.Callback mCallback;
     private SharedPreferences sharedPrefs;
     private String mTheme;
-    private Boolean mUpdate;
+    private Boolean mBackup;
 
     private ProgressBar mLoader;
     private ImageView mEmptyImaveView;
@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity
         //Register MainActivity as an OnSharedPreferenceChangedListener to receive a callback when a SharedPreference has changed.
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,27 +99,26 @@ public class MainActivity extends AppCompatActivity
         mItemTouchHelper.attachToRecyclerView(mList);
     }
 
-
     @Override
     public void onClickDelete(int id, String name) {
 //        int id = (int) viewHolder.iv_delete
         Uri uriTask = TasksEntry.CONTENT_URI;
         uriTask = uriTask.buildUpon().appendPath(Integer.toString(id)).build();
-        try{
+        try {
             int rowsDeleted = getContentResolver().delete(uriTask, null, null);
             if (rowsDeleted == 0) {
                 // If no rows were affected, then there was an error with the update.
                 Toast.makeText(this, getString(R.string.delete_entries_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
-                // Otherwise, the update was successful and displays a toast.
+                // Otherwise, the deletion was successful and displays a toast.
                 Toast.makeText(this, getString(R.string.delete_entries_successful, name),
                         Toast.LENGTH_SHORT).show();
             }
             getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 
             mItemTouchHelper.closeOpened();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
@@ -147,8 +144,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -158,26 +153,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        switch (id){
+        switch (id) {
             case TASK_LOADER_ID:
                 Uri taskUri = TasksEntry.CONTENT_URI;
                 String sortOrder = TasksEntry.COLUMN_CREATION_DATE + " DESC";
@@ -198,11 +185,11 @@ public class MainActivity extends AppCompatActivity
         mAdapter.swapCursor(cursor);
         mList.smoothScrollToPosition(0);
         mLoader.setVisibility(View.GONE);
-        if(cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             mEmptyImaveView.setVisibility(View.VISIBLE);
             mEmptyTitleTextView.setVisibility(View.VISIBLE);
             mEmptySubTitleTextView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mEmptyImaveView.setVisibility(View.INVISIBLE);
             mEmptyTitleTextView.setVisibility(View.INVISIBLE);
             mEmptySubTitleTextView.setVisibility(View.INVISIBLE);
@@ -217,14 +204,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.backup_key))) {
-            mUpdate = sharedPrefs.getBoolean(getString(R.string.backup_key), getResources().getBoolean(R.bool.pref_enable_backup));
-            Tasks.sheduleNotification(getApplicationContext(), mUpdate);
+            mBackup = sharedPrefs.getBoolean(getString(R.string.backup_key), getResources().getBoolean(R.bool.pref_enable_backup));
+            Tasks.sheduleNotification(getApplicationContext(), mBackup);
         }
         if (key.equals(getString(R.string.settings_theme_key))) {
             this.recreate();
         }
     }
-
 
     @Override
     protected void onDestroy() {

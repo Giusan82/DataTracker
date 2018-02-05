@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.android.datatracker.data.DataContract.DataEntry;
 import com.example.android.datatracker.data.TasksContract.TasksEntry;
 
-public class DataDbHelper extends SQLiteOpenHelper{
+public class DataDbHelper extends SQLiteOpenHelper {
     //Name of the database file
     private static final String DATABASE_NAME = "DataTracker.db";
     //Database version.
@@ -41,7 +41,6 @@ public class DataDbHelper extends SQLiteOpenHelper{
     public DataDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {

@@ -14,7 +14,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,9 +33,7 @@ import com.example.android.datatracker.data.DataContract.DataEntry;
 import at.grabner.circleprogress.CircleProgressView;
 
 
-public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHandler, LoaderManager.LoaderCallbacks<Cursor>{
-
-
+public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
     public static final int DATA_LOADER_ID = 100;
     public static final int EDIT_LOADER_ID = 200;
     private RecyclerView mList;
@@ -56,17 +52,11 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
 
     private EditText mET_XValue;
     private EditText mET_YValue;
-    private EditText mET_Xlabel;
-    private EditText mET_Ylabel;
-    private String mXlabel;
-    private String mYlabel;
-    private String mXValue;
-    private String mYValue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_job);
         View rootView = inflater.inflate(R.layout.fragment_data, container, false);
 
         //Load a circle progress bar as loading bar
@@ -96,20 +86,20 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                 int id = (int) viewHolder.itemView.getTag();
                 Uri uriTask = DataEntry.CONTENT_URI;
                 uriTask = uriTask.buildUpon().appendPath(Integer.toString(id)).build();
-                try{
+                try {
                     int rowsDeleted = getActivity().getContentResolver().delete(uriTask, null, null);
                     if (rowsDeleted == 0) {
                         // If no rows were affected, then there was an error with the update.
                         Toast.makeText(getContext(), getString(R.string.delete_entries_failed),
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        // Otherwise, the update was successful and displays a toast.
+                        // Otherwise, the deletion was successful and displays a toast.
                         Toast.makeText(getContext(), getString(R.string.delete_entries_successful),
                                 Toast.LENGTH_SHORT).show();
                         isDataChanged = true;
                     }
                     getActivity().getSupportLoaderManager().restartLoader(DATA_LOADER_ID, null, DataFragment.this);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println(e);
                 }
             }
@@ -124,24 +114,14 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
         mDuration = intent.getDoubleExtra("duration", 0);
         mInterval = intent.getDoubleExtra("interval", 0);
         getActivity().setTitle(mNameTask);
-        // If the intent DOES NOT contain a URI load the editor for add new item
-        if (mCurrentUri != null) {
-//
-        } else {
-//
-        }
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(this, EditorActivity.class);
-//                startActivity(intent);
                 String title = getString(R.string.editor_activity_title_new_data);
                 String description = getString(R.string.editor_activity_desc_new_data);
                 alertDialogMessage(title, description, true);
-
-
             }
         });
 
@@ -152,9 +132,10 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             Activity activity = getActivity();
-            if(activity != null) activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            if (activity != null)
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
@@ -177,10 +158,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Define a projection that specifies which columns from the database is used after the query.
-
-
-        switch (id){
+        switch (id) {
             case EDIT_LOADER_ID:
                 return new CursorLoader(getContext(),
                         mEditUri,
@@ -190,7 +168,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                         null);
             case DATA_LOADER_ID:
                 String selection = DataEntry.COLUMN_TASK_ID + "=?";
-                String selectionArgs1[]={String.valueOf(mTaskId)};
+                String selectionArgs1[] = {String.valueOf(mTaskId)};
                 Uri dataUri = DataEntry.CONTENT_URI;
                 String sortOrder = DataEntry.COLUMN_CREATION_DATE + " ASC";
                 return new CursorLoader(getContext(),
@@ -206,58 +184,52 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-        if(loader.getId() == EDIT_LOADER_ID){
+        if (loader.getId() == EDIT_LOADER_ID) {
             if (cursor == null || cursor.getCount() < 1) {
                 return;
             }
-
             // Proceed with moving to the first row of the cursor and reading data from it
             if (cursor.moveToFirst()) {
-
                 double x = cursor.getDouble(cursor.getColumnIndex(DataEntry.COLUMN_X));
                 double y = cursor.getDouble(cursor.getColumnIndex(DataEntry.COLUMN_Y));
-
                 String title = getString(R.string.editor_activity_title_edit_data);
                 String description = getString(R.string.editor_activity_desc_edit_data);
                 alertDialogMessage(title, description, false);
-
                 mET_XValue.setText(String.valueOf(x), TextView.BufferType.EDITABLE);
                 mET_YValue.setText(String.valueOf(y), TextView.BufferType.EDITABLE);
             }
         }
-        if(loader.getId() == DATA_LOADER_ID){
+        if (loader.getId() == DATA_LOADER_ID) {
             Log.e("DataFragment_LoaderId", "DATA_LOADER_ID");
             mLoader.setVisibility(View.GONE);
             mAdapter.swapCursor(cursor);
             double taskCompleted = mAdapter.getItemCount();
             double total = mDuration / mInterval;
-            double progress = taskCompleted / total *100;
-            Log.e("Job-Intent", "Duration: " + mDuration + " Interval: " + mInterval + " Progress: " + progress + " TaskCompleted: " + taskCompleted + " total: " + total);
-            mCircleView.setValueAnimated((int)progress, 1500);
-            if(isDataChanged){
+            double progress = taskCompleted / total * 100;
+            mCircleView.setValueAnimated((int) progress, 1500);
+            if (isDataChanged) {
                 ContentValues data = new ContentValues();
                 data.put(TasksEntry.COLUMN_TASKS_COMPLETED, taskCompleted);
-                try{
+                try {
                     int rowsAffected = getActivity().getContentResolver().update(mCurrentUri, data, null, null);
                     if (rowsAffected == 0) {
-                        Log.i("DataFragment", "Failed update mProgress in Tasks table");
+                        Log.i("DataFragment", "Failed update taskCompleted in Tasks table");
                     } else {
                         // Otherwise, the update was successful and displays a toast.
-                        Log.i("DataFragment", "Successful update mProgress in Tasks table");
+                        Log.i("DataFragment", "Successful update taskCompleted in Tasks table");
                     }
                     isDataChanged = false;
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println(e);
                 }
             }
         }
 
         mLoader.setVisibility(View.GONE);
-        if(cursor.getCount() == 0){
-           mEmptyTitleTextView.setVisibility(View.VISIBLE);
+        if (cursor.getCount() == 0) {
+            mEmptyTitleTextView.setVisibility(View.VISIBLE);
             mEmptySubTitleTextView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mEmptyTitleTextView.setVisibility(View.INVISIBLE);
             mEmptySubTitleTextView.setVisibility(View.INVISIBLE);
         }
@@ -266,11 +238,11 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if(loader.getId() == EDIT_LOADER_ID){
+        if (loader.getId() == EDIT_LOADER_ID) {
             mET_XValue.setText("");
             mET_YValue.setText("");
         }
-        if(loader.getId() == DATA_LOADER_ID){
+        if (loader.getId() == DATA_LOADER_ID) {
             mAdapter.swapCursor(null);
         }
 
@@ -280,11 +252,11 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
     public void alertDialogMessage(String title, String message, final boolean isNew) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View input = inflater.inflate(R.layout.edit_dialog, null);
-        mET_XValue = (EditText)input.findViewById(R.id.et_X);
-        mET_YValue = (EditText)input.findViewById(R.id.et_Y);
+        mET_XValue = (EditText) input.findViewById(R.id.et_X);
+        mET_YValue = (EditText) input.findViewById(R.id.et_Y);
         mET_XValue.setHint(getString(R.string.dialog_add_new_data));
         mET_YValue.setHint(getString(R.string.dialog_add_new_data));
-        if(!isNew){
+        if (!isNew) {
 
         }
 
@@ -296,9 +268,9 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
         builder.setPositiveButton(getString(R.string.action_save), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(isNew){
+                if (isNew) {
                     save(mCurrentUri, true);
-                }else {
+                } else {
                     save(mEditUri, false);
                 }
 
@@ -315,13 +287,13 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
         dialog.show();
     }
 
-    private void save(Uri uri, boolean isNew){
+    private void save(Uri uri, boolean isNew) {
 
         String x = mET_XValue.getText().toString().trim();
         String y = mET_YValue.getText().toString().trim();
 
-        try{
-            if (isNew){
+        try {
+            if (isNew) {
                 ContentValues data = new ContentValues();
                 data.put(DataEntry.COLUMN_NAME, mNameTask);
                 data.put(DataEntry.COLUMN_CREATION_DATE, System.currentTimeMillis());
@@ -331,7 +303,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                 Uri newUri = getActivity().getContentResolver().insert(DataEntry.CONTENT_URI, data);
 
                 // Show a toast message depending on whether or not the insertion was successful
-                if (newUri == null ) {
+                if (newUri == null) {
                     // If the new content URI is null, then there was an error with insertion.
                     Toast.makeText(getContext(), getString(R.string.saving_failed), Toast.LENGTH_SHORT).show();
                 } else {
@@ -340,8 +312,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                             Toast.LENGTH_SHORT).show();
                     isDataChanged = true;
                 }
-            }
-            else {
+            } else {
                 ContentValues values = new ContentValues();
                 values.put(DataEntry.COLUMN_X, x);
                 values.put(DataEntry.COLUMN_Y, y);
@@ -361,10 +332,9 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                     isDataChanged = true;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-
         getActivity().getSupportLoaderManager().destroyLoader(EDIT_LOADER_ID);
     }
 }

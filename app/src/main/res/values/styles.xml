@@ -1,21 +1,12 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="android:dropDownListViewStyle">@style/Spinner_style</item>
-    </style>
-
     <style name="EditDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorText</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="colorAccent">@color/colorText</item>
         <item name="android:background">?attr/colorDialogBackgroundAttr</item>
     </style>
+
     <!--Coral Theme-->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -43,7 +34,6 @@
     </style>
 
     <!--Green Theme-->
-
     <style name="AppThemeGreen" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
@@ -69,6 +59,7 @@
         <item name="list_background">@color/middle_gray</item>
         <item name="colorDialogBackgroundAttr">@color/middle_gray</item>
     </style>
+
     <style name="Spinner_style" parent="@style/Base.Animation.AppCompat.DropDownUp">
         <item name="android:dividerHeight">@dimen/divider</item>
         <item name="android:divider">?attr/divider_attr</item>

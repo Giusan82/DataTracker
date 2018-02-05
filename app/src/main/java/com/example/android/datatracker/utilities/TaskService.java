@@ -14,7 +14,7 @@ public class TaskService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         String action = intent.getAction();
-        if(action.equals(Tasks.SHOW_ALARM)){
+        if (action.equals(Tasks.SHOW_ALARM)) {
             Log.i("TaskService", "The Alarm service is not been implemented! Action: " + action);
         }
     }

@@ -19,22 +19,23 @@ import java.util.Date;
 import at.grabner.circleprogress.CircleProgressView;
 
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder>{
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private Context mContext;
     private Cursor mCursor;
-
     public final EntryOnClickHandler mOnClick;
 
-    public interface EntryOnClickHandler{
-        void onClickDelete (int id, String name);
-        void onClickView (int id, String name, double duration, double interval);
+    public interface EntryOnClickHandler {
+        void onClickDelete(int id, String name);
+
+        void onClickView(int id, String name, double duration, double interval);
+
         void onClickEdit(int id, int position);
     }
+
     /**
      * Constructor
      */
-    public TaskAdapter(Context context, EntryOnClickHandler entry){
-
+    public TaskAdapter(Context context, EntryOnClickHandler entry) {
         mContext = context;
         mOnClick = entry;
     }
@@ -46,7 +47,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         int listId = R.layout.list;
-
         View view = LayoutInflater.from(mContext).inflate(listId, viewGroup, false);
         TaskViewHolder viewHolder = new TaskViewHolder(view);
         return viewHolder;
@@ -64,7 +64,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         double durationUnit = mCursor.getDouble(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_DURATION_UNIT));
         double interval = mCursor.getDouble(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_INTERVAL));
         double intervalUnit = mCursor.getDouble(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_INTERVAL_UNIT));
-        holder.cv_completing.setValueAnimated((int)progressJob(taskCompleted, duration*durationUnit, interval*intervalUnit), 1500);
+        holder.cv_completing.setValueAnimated((int) progressJob(taskCompleted, duration * durationUnit, interval * intervalUnit), 1500);
         long creationDate = mCursor.getLong(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_CREATION_DATE));
         Date date = new Date(creationDate);
         String timeCreation = formatDate(date) + ", " + formatTime(date);
@@ -72,15 +72,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         String description = mCursor.getString(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_DESCRIPTION));
         holder.tv_description.setText(description);
         int alarm = mCursor.getInt(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_ALARM));
-        if (alarm == 1){
+        if (alarm == 1) {
             holder.iv_alarm.setImageResource(R.drawable.ic_alarm_on_24dp);
         }
         holder.setIsRecyclable(false);
     }
 
-    private double progressJob(double taskCompleted, double duration, double interval){
+    private double progressJob(double taskCompleted, double duration, double interval) {
         double total = duration / interval;
-        double progress = taskCompleted / total *100;
+        double progress = taskCompleted / total * 100;
         return progress;
     }
 
@@ -88,6 +88,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
         return dateFormat.format(dateObject);
     }
+
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         return timeFormat.format(dateObject);
@@ -100,18 +101,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public Cursor swapCursor(Cursor newCursor) {
-        if(newCursor == mCursor){
+        if (newCursor == mCursor) {
             return null;
         }
         this.mCursor = newCursor;
-        if(newCursor != null){
+        if (newCursor != null) {
             this.notifyDataSetChanged();
         }
         return mCursor;
     }
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder{
-        public  TextView tv_name;
+    public class TaskViewHolder extends RecyclerView.ViewHolder {
+        public TextView tv_name;
         public TextView tv_date;
         public TextView tv_delete;
         public ImageView iv_delete;
@@ -159,7 +160,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 double interval = mCursor.getDouble(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_INTERVAL));
                 double intervalUnit = mCursor.getDouble(mCursor.getColumnIndex(TasksContract.TasksEntry.COLUMN_INTERVAL_UNIT));
 
-                mOnClick.onClickView(id, name, duration*durationUnit, interval*intervalUnit);
+                mOnClick.onClickView(id, name, duration * durationUnit, interval * intervalUnit);
             }
         };
 

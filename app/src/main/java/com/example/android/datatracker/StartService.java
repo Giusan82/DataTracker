@@ -8,7 +8,7 @@ import android.util.Log;
 import com.example.android.datatracker.utilities.Tasks;
 
 
-public class StartService extends BroadcastReceiver{
+public class StartService extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {

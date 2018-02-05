@@ -20,12 +20,13 @@ public class Tasks {
     private static final String JOB_TAG_NOTIFICATION = "task_notification";
 
 
-    public static void execute(Context context, String action){
-        if(SHOW_NOTIFICATION.equals(action)){
+    public static void execute(Context context, String action) {
+        if (SHOW_NOTIFICATION.equals(action)) {
             NotificationsTask.execute(context);
         }
     }
-    synchronized public static void sheduleNotification(@NonNull final Context context, boolean isActive){
+
+    synchronized public static void sheduleNotification(@NonNull final Context context, boolean isActive) {
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         Job newJob = dispatcher.newJobBuilder()
@@ -37,9 +38,9 @@ public class Tasks {
                 .setTrigger(Trigger.executionWindow(STARTING_NOTIFICATION, STARTING_NOTIFICATION + SYNC_FLEXTIME))
                 .setReplaceCurrent(true) //overwrite an existing job with the same tag
                 .build();
-        if(isActive){
+        if (isActive) {
             dispatcher.schedule(newJob);
-        }else{
+        } else {
             dispatcher.cancel(JOB_TAG_NOTIFICATION);
         }
     }
