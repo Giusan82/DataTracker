@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">DataTracker</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="content_authority">com.example.android.datatracker</string>
+
+    <!--Editor Activity-->
+    <string name="job_name">Job Name</string>
+    <string name="job_name_description">Name of the experiment</string>
+    <string name="job_content_description">Description</string>
+    <string name="job_description">Add here a description</string>
+    <string name="duration">Duration</string>
+    <string name="duration_description">Duration of experiment</string>
+    <string name="frequency">Frequency</string>
+    <string name="times">Times</string>
+    <string name="frequency_description">Repeat the operation every times</string>
+    <string name="starting_time">Starting Time</string>
+    <string name="starting_time_active">Starting Time: %1$s</string>
+    <!-- Strings For time spinner [CHAR LIMIT=5] -->
+    <string name="time_seconds">Secs</string>
+    <!-- Strings For time spinner [CHAR LIMIT=5] -->
+    <string name="time_minutes">Mins</string>
+    <!-- Strings For time spinner [CHAR LIMIT=5] -->
+    <string name="time_hours">Hrs</string>
+    <!-- Strings For time spinner [CHAR LIMIT=5] -->
+    <string name="time_days">Days</string>
+    <!-- Strings For time spinner [CHAR LIMIT=5] -->
+    <string name="time_weeks">Wks</string>
+    <string name="alarm">Alarm:  </string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="empty_name_field">The name field can not be empty</string>
+    <string name="empty_duration_field">The duration field can not be empty</string>
+    <string name="empty_frequency_field">The frequency field can not be empty</string>
+
+    <string name="category_general">General</string>
+    <!-- Strings For theme Preference [CHAR LIMIT=NONE] -->
+    <string name="settings_theme_label">Theme</string>
+    <string name="settings_theme_key" translatable="false">theme</string>
+    <string name="settings_theme_default" translatable="false">green</string>
+    <string name="settings_coral_theme_label">Coral</string>
+    <string name="settings_green_theme_label">Green</string>
+    <string name="settings_coral_theme_value" translatable="false">coral</string>
+    <string name="settings_green_theme_value" translatable="false">green</string>
+
+    <string name="backup_label">Backup</string>
+    <string name="backup_key">backup</string>
+    <string name="backup_on">Enabled</string>
+    <string name="backup_off">Disabled</string>
+    <!-- Notifications -->
+    <string name="notification_title">Automatic Backup</string>
+    <string name="notification_desc">Backup of your data is been completed with successful</string>
+    <string name="notification_channel_name">Tasks</string>
+
+    <!-- [CHAR LIMIT=NONE] -->
+    <string name="close_button">Close</string>
+    <!-- [CHAR LIMIT=NONE] -->
+    <string name="refresh_button">Refresh</string>
+
+
+    <!-- Title for the activity to add a new item [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_task">New Task</string>
+    <string name="editor_activity_title_new_data">New Data</string>
+    <string name="editor_activity_desc_new_data">Add here a new data in the field below</string>
+    <string name="editor_activity_title_edit_data">Edit Data</string>
+    <string name="editor_activity_desc_edit_data">Edit this data in the field below</string>
+    <!-- Title for the activity to edit a item [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_editor">Editor</string>
+    <string name="dialog_edit_data_label_y">Axis Y</string>
+    <string name="dialog_edit_data_label_x">Axis X</string>
+    <string name="dialog_add_new_data">New value here</string>
+
+    <string name="tab_data">Data</string>
+    <string name="tab_chart">Chart</string>
+
+
+    <!--Dialog messages-->
+    <!-- Toast message in editor when new item has been successfully inserted or updated [CHAR LIMIT=NONE] -->
+    <string name="saving_successful">Saved with successful</string>
+    <string name="saving_successful_with_name">%1$s task has been created</string>
+    <!-- Toast message in editor when new item has failed to be inserted or updated[CHAR LIMIT=NONE] -->
+    <string name="saving_failed">Saving failed</string>
+    <!-- Message that is shown when a data has been deleted [CHAR LIMIT=30] -->
+    <string name="delete_entries_successful">%1$s has been deleted </string>
+    <!-- Message that is shown when a data has not been deleted [CHAR LIMIT=30] -->
+    <string name="delete_entries_failed">No item is deleted</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+    <!-- Dialog button text for the option to keep editing[CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!--Empty View-->
+    <!-- Message that is shown when database is empty[CHAR LIMIT=30] -->
+    <string name="empty_view_title_text">The database is empty</string>
+    <!-- Subtitle text for the empty view that prompts the user to add a entry [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding a new one.</string>
+
+
+
+
+
+
+
+</resources>

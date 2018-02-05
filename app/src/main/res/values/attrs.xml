@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="primaryColorAttr" format="reference" />
+    <attr name="accentColorAttr" format="reference" />
+    <attr name="primaryDarkColorAttr" format="reference" />
+    <attr name="primaryLightColorAttr" format="reference" />
+    <attr name="colorTextAttr" format="reference"/>
+    <attr name="colorTextHintAttr" format="reference"/>
+    <attr name="colorIconAttr" format="reference"/>
+    <attr name="colorIconBarAttr" format="reference"/>
+    <attr name="color_axis" format="reference"/>
+    <attr name="divider_attr" format="reference"/>
+    <attr name="list_background" format="reference"/>
+    <attr name="colorDialogBackgroundAttr" format="reference"/>
+</resources>

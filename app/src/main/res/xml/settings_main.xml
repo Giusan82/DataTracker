@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/category_general">
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_enable_backup"
+            android:key="@string/backup_key"
+            android:summaryOff="@string/backup_off"
+            android:summaryOn="@string/backup_on"
+            android:title="@string/backup_label" />
+        <com.example.android.datatracker.widgets.PreferenceTheme
+            android:defaultValue="@string/settings_theme_default"
+            android:key="@string/settings_theme_key"
+            android:title="@string/settings_theme_label" />
+    </PreferenceCategory>
+</PreferenceScreen>
