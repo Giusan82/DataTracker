@@ -4,8 +4,9 @@
 <br>
 <i>Skill level</i>: <b>intermediate</b></p>
 
-The aim of this app is to keep track of data collected during an experiment, or simply for monitoring something, as quality of water, air or whatever you want and display its data in a chart.
-It is also provided of notifications and two themes. 
+<p>The aim of this app is to keep track of data collected during an experiment, or simply for monitoring something, as quality of water, air or whatever you want and display its data in a chart.
+It is also provided of notifications and two themes.</p>
+<br>
 
 
 <p align="center">
