@@ -10,10 +10,13 @@ It is also provided of notifications and two themes.</p>
 
 
 <p align="center">
-  <img src="2018-02-05_182608.jpg" height="350" style="max-width:100%;">
-  <img src="2018-02-05_182646.jpg" height="350" style="max-width:100%;">
-  <img src="2018-02-05_182758.jpg" height="350" style="max-width:100%;">
-  <img src="2018-02-05_184131.jpg" height="350" style="max-width:100%;">
+  <img src="2018-02-05_182608.jpg" height="550" style="max-width:100%;">
+  <img src="2018-02-05_182646.jpg" height="550" style="max-width:100%;">
+</p>
+
+<p align="center">
+  <img src="2018-02-05_182758.jpg" height="550" style="max-width:100%;">
+  <img src="2018-02-05_184131.jpg" height="550" style="max-width:100%;">
 </p>
 
 <p align="center">
