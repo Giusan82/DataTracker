@@ -99,7 +99,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                         isDataChanged = true;
                     }
                     getActivity().getSupportLoaderManager().restartLoader(DATA_LOADER_ID, null, DataFragment.this);
-                } catch (Exception e) {
+                } catch (IllegalArgumentException e) {
                     System.out.println(e);
                 }
             }
@@ -332,7 +332,7 @@ public class DataFragment extends Fragment implements DataAdapter.EntryOnClickHa
                     isDataChanged = true;
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
         getActivity().getSupportLoaderManager().destroyLoader(EDIT_LOADER_ID);

@@ -240,7 +240,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
         // Define a projection that specifies which columns from the database is used after the query.
         String[] projection = {
                 TasksEntry._ID,
@@ -254,15 +254,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TasksEntry.COLUMN_ALARM,
                 TasksEntry.COLUMN_ALARM_ID
         };
-        // This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(
-                this,
-                mCurrentUri,
-                projection,
-                null,
-                null,
-                null
-        );
+        switch (id){
+            case TASKS_LOADER:
+                // This loader will execute the ContentProvider's query method on a background thread
+                return new CursorLoader(
+                        this,
+                        mCurrentUri,
+                        projection,
+                        null,
+                        null,
+                        null);
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + id);
+        }
     }
 
     @Override
@@ -390,7 +394,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
             //Exit activity
             finish();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
     }

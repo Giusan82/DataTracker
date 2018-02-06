@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
             getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 
             mItemTouchHelper.closeOpened();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
     }
