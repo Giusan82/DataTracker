@@ -22,5 +22,5 @@ It is also provided of notifications and two themes.</p>
 </p>
 
 <p align="center">
-  <img src="2018-02-05_182727.jpg" height="500" style="max-width:100%;">
+  <img src="2018-02-05_182727.jpg" height="550" style="max-width:100%;">
 </p>
