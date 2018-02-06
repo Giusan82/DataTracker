@@ -4,7 +4,7 @@
 <br>
 <i>Skill level</i>: <b>intermediate</b></p>
 
-<p>The aim of this app is to keep track of data collected during an experiment, or simply for monitoring something, as quality of water, air or whatever you want and display its data in a chart.
+<p>The aim of this app was to keep track of data collected during an experiment, or simply for monitoring something, as quality of water, air or any data you want and display them in a chart. This app have also an alarm for remember the user when do the next measure. It is completed only partially, it is able to start service, which show a log message at the time selected with a timepicker. A service for an automatic backup on server of the data collected is added, but the server is not yet implemented. 
 It is also provided of notifications and two themes.</p>
 <br>
 
